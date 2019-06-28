@@ -1,10 +1,10 @@
- A#include <IRremote.h>           //Library for IR Remote
+#include <IRremote.h>           //Library for IR Remote
 IRsend irsend;
 int sensor = 6;  
 int LED = 13;
 boolean status=false;
 boolean temp; 
-int timer=2000;
+long timer=2000;
 void setup() 
 {
   Serial.begin(9600);
@@ -16,20 +16,21 @@ void loop()
 if(digitalRead(sensor) == LOW )     // If motion not detected
   {
   delay(2000);
-  for (int i=1;i<150;i++)
+  for (int i=0;i<30;i++)
   {
   if(digitalRead(sensor) == LOW )     // If motion not detected
   {
   delay(2000);
-  if(digitalRead(sensor) == HIGH ){timer=0; Serial.println("Timer set to ZERO");  break; }
+  if(digitalRead(sensor) == HIGH ){ delay(2500); if(digitalRead(sensor) == HIGH ) { timer=0; Serial.println("Timer set to ZERO");  break; }}
    
   }
-  Serial.println(timer);
+  Serial.print((timer/1000));
+  Serial.println("s");
   timer=timer+2000;
   }
   if(digitalRead(sensor) == LOW )     // If motion not detected
   {
-  delay(5000);
+  delay(3000);
 
   Serial.println("Waiting......");
 
